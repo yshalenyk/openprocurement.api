@@ -24,6 +24,7 @@ from openprocurement.api.utils import (
     set_ownership,
     tender_serialize,
     APIResource,
+    _apply_patch
 )
 from openprocurement.api.validation import (
     validate_patch_tender_data,
@@ -463,10 +464,48 @@ class TenderResource(APIResource):
             }
 
         """
+
+        tender_data = {}
         if self.request.authenticated_role == 'chronograph':
             tender_data = self.context.serialize('chronograph_view')
         else:
-            tender_data = self.context.serialize(self.context.status)
+            public_revisions = [
+                rev
+                for rev in self.context.revisions[1:]
+                if rev.get('public', False)
+            ]
+            if not public_revisions:
+                header = ('X-Revision-N', '0')
+                self.request.response.headerlist.append(header)
+                return {'data': self.context.serialize(self.context.status)}
+            current_version = len(public_revisions)
+            request_version = self.request.headers.get('X-Revision-N', False)
+            revision_index = int(request_version) if request_version\
+                and request_version.isdigit() else current_version
+            model = type(self.context)
+            if revision_index >= current_version or revision_index < 0:
+                header = ('X-Revision-N', str(current_version))
+                tender_data = self.context.serialize(self.context.status)
+            else:
+                tender = self.context.serialize('plain')
+                revisions = [rev.to_primitive() for rev in self.context.revisions[1:]]
+                revision = public_revisions[revision_index]
+
+                for patch in reversed(revisions):
+                    tender = _apply_patch(tender, patch['changes'])
+                    if patch['rev'] == revision.rev:
+                        try:
+                            tender['dateModified'] = public_revisions[revision_index - 1].date
+                        except (IndexError, ValueError):
+                            tender['dateModified'] = self.context.revisions[0].date
+                        header = ('X-Revision-N', str(revision_index))
+                        tender_data = model(tender).serialize(tender['status'])
+
+                if not tender_data:
+                    header = ('X-Revision-N', str(current_version))
+                    tender_data = self.context.serialize(self.context.status)
+
+            self.request.response.headerlist.append(header)
         return {'data': tender_data}
 
     #@json_view(content_type="application/json", validators=(validate_tender_data, ), permission='edit_tender')
