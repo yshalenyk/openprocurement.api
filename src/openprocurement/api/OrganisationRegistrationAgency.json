@@ -398,6 +398,22 @@
          "description":"K\u00f6z\u00f6ss\u00e9gi ad\u00f3sz\u00e1m serves as both tax number and VAT ID. No abbreviation is used."
       },
       {
+         "category":"HR",
+         "code":"HR-MBS",
+         "name":"Sudski registar / Court register",
+         "url":"https://sudreg.pravosudje.hr/registar/f?p=150:2",
+         "public-database":true,
+         "description":"Available only in Croatian."
+      },
+      {
+         "category":"HR",
+         "code":"HR-OIB",
+         "name":"Osobni identifikacijski broj/Personal Identification Number",
+         "url":"https://sudreg.pravosudje.hr/registar/f?p=150:3",
+         "public-database":true,
+         "description":"Available only in Croatian."
+      },
+      {
          "category":"ID",
          "code":"ID-KDN",
          "name":"Ministry Home affairs/ Kementerian Dalam Negeri",
