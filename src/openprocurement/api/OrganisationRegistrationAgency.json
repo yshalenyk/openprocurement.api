@@ -150,6 +150,14 @@
          "description":null
       },
       {
+         "category":"AZ",
+         "code":"AZ-IVI",
+         "name":"State Register of Commercial Entities (The Ministry of Taxes of Azerbaijan Republic) / Kommersiya qurumlar\u0131n\u0131n d\u00f6vl\u0259t reyestri. Internet vergi idar\u0259si/Internet Tax Administration",
+         "url":"https://www.e-taxes.gov.az/ebyn/commersialChecker.jsp",
+         "public-database":true,
+         "description":"Available only in Azerbaijani"
+      },
+      {
          "category":"BD",
          "code":"BD-NAB",
          "name":"Bangladesh NGO Affairs Bureau",
