@@ -25,8 +25,12 @@ from schematics.exceptions import ValidationError
 from openprocurement.api.events import ErrorDesctiptorEvent
 from openprocurement.api.constants import LOGGER
 from openprocurement.api.constants import (
-    ADDITIONAL_CLASSIFICATIONS_SCHEMES, DOCUMENT_BLACKLISTED_FIELDS,
-    DOCUMENT_WHITELISTED_FIELDS, ROUTE_PREFIX, TZ, SESSION
+    ADDITIONAL_CLASSIFICATIONS_SCHEMES,
+    DOCUMENT_BLACKLISTED_FIELDS,
+    DOCUMENT_WHITELISTED_FIELDS,
+    ROUTE_PREFIX,
+    TZ,
+    SESSION
 )
 from openprocurement.api.interfaces import IContentConfigurator
 
